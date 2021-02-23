@@ -3,19 +3,16 @@
 -->
 <template>
   <div class="header" :style="{ height: headerHeight }">
-    <div class="headerLine" :style="{ height: lineHeight }"></div>
+    <div class="headerLine" :style="{ height: lineHeight }" v-if="isNeedStatusBar"></div>
     <div
       class="header-global"
       :class="{ header_bottom_shadow: isNeedShadow }"
       ref="headerRef"
       :style="{ paddingTop: headerPaddingTop, backgroundColor: background }"
     >
-      <span
-        class="leftIcon"
-        :class="arrowsType === 'black' ? 'blackArrows' : 'whiteArrows'"
-        :style="{ top: leftIconTop }"
-        @click="goBack"
-      ></span>
+      <div class="left" :style="{ top: leftIconTop }" @click="goBack">
+        <span class="leftIcon" :class="arrowsType === 'black' ? 'blackArrows' : 'whiteArrows'"></span>
+      </div>
 
       <div class="headTitle" :style="{ opacity: titleOpacity, color: titleColor }">{{ headTitle || routerTitle }}</div>
 
@@ -93,35 +90,39 @@ export default {
     }
   },
   created() {
-    // console.log('-header-')
     this.getTitle()
   },
   mounted() {
-    // console.log('-isNeedStatus-', this.isNeedStatusBar)
+    openNative.setHeaderBar()
     this.setHighColor()
-    // console.log(111, 'onBack', this.onBack)
   },
   computed: {
     ...mapGetters('globalStatus', ['statusBarHeight']),
+    // 状态栏基础rem数值
+    baseRemVal() {
+      const baseVal = this.isNeedStatusBar ? this.statusBarHeight : 0
+      return baseVal / this.remBase
+    },
     // header高度 == title + 状态栏
     headerHeight() {
-      let hei = this.isMainFullScreen ? +this.statusBarHeight : +this.statusBarHeight + 41
-      console.log('-statusBarHeight-', hei)
-      return hei / this.remBase + 'rem'
+      let hei = this.isMainFullScreen ? this.baseRemVal : this.baseRemVal + 41 / this.remBase
+      return hei + 'rem'
     },
     // header状态栏高度
     lineHeight() {
-      return this.statusBarHeight / this.remBase + 'rem'
+      return this.baseRemVal + 'rem'
     },
     headerPaddingTop() {
-      return this.statusBarHeight / this.remBase + 'rem'
+      return this.baseRemVal + 'rem'
     },
     leftIconTop() {
       // 10.5 = (header高度 - leftIcon高度) / 2  ==》(41 - 20) / 2
-      return (+this.statusBarHeight + 10.5) / this.remBase + 'rem'
+      // console.log(+this.statusBarHeight, this.remBase)
+      return this.baseRemVal + 'rem'
+      // return this.baseRemVal + 10.5 / this.remBase + 'rem'
     },
     rightTop() {
-      return this.statusBarHeight / this.remBase + 'rem'
+      return this.baseRemVal + 'rem'
     }
   },
   methods: {
@@ -151,27 +152,21 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-//@import url(); 引入公共css类
+// @import url(); 引入公共css类
 // @import '~@/styles/variable';
-
-// header高度
-// @height: 42px;
-// // 客户端状态栏预留高度
-// @statusBarHeight: 41px;
 // header高度
 @height: 41px;
 // 客户端状态栏预留高度
 @statusBarHeight: 20px;
 // 图片路径
-@imgUrl: '~@/assets/images/common/';
-// // 基础设计去图375，蓝湖标准设计图750 需要除以2
+@imgUrl: '~@/assets/images/';
+// 基础设计去图375，蓝湖标准设计图750 需要除以2
 // @multiple: 0.5;
 
 .header {
   width: 100%;
+
   .headerLine {
-    // position: relative;
-    // z-index: 1000;
     position: fixed;
     left: 0;
     top: 0;
@@ -179,6 +174,7 @@ export default {
     margin: auto;
     width: 100%;
   }
+
   .highColor {
     background: #fff;
   }
@@ -197,18 +193,28 @@ export default {
     font-family: PingFang-SC-Bold;
     font-size: 18px;
     box-sizing: content-box;
-    .leftIcon {
+    .left {
       position: absolute;
-      left: 12px;
-      top: 10.5px;
+      left: 0;
+      top: 0;
+      // left: 12px;
+      // top: 10.5px;
       z-index: 10;
-      width: 12px;
-      height: 20px;
-      &.blackArrows {
-        background: url('@{imgUrl}blackLeftArrow.png') no-repeat center / cover;
-      }
-      &.whiteArrows {
-        background: url('@{imgUrl}whiteLeftArrow.png') no-repeat center / cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 36px;
+      height: @height;
+
+      .leftIcon {
+        width: 12px;
+        height: 20px;
+        &.blackArrows {
+          background: url('@{imgUrl}blackLeftArrow.png') no-repeat center / cover;
+        }
+        &.whiteArrows {
+          background: url('@{imgUrl}whiteLeftArrow.png') no-repeat center / cover;
+        }
       }
     }
     .right {
@@ -216,6 +222,9 @@ export default {
       right: 10px;
       top: 0;
       z-index: 10;
+      display: flex;
+      align-items: center;
+      height: @height;
       font-size: 14px;
     }
   }

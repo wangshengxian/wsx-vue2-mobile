@@ -1,7 +1,8 @@
 /**
  * 验证器
  */
-
+import { Toast } from 'vant'
+import tools from './tools'
 /**
  * 手机号验证
  * @param {String} 手机号码
@@ -25,13 +26,23 @@ export function validEmail(email) {
 }
 
 /**
- * 验证密码必须为 8-64位字母、数字、特殊符号组成
+ * 密码验证必须为 8-64位字母、数字、特殊符号组成
  * @param {String} str
  * @returns {Boolean}
  */
 export function validPwd(str) {
   const reg = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*()_+`\-={}:";'<>?,.\/]).{8,64}$/
   return reg.test(str)
+}
+
+/**
+ * 护照验证
+ * @param {Number} code 护照证件码
+ * @return {Boolean}
+ */
+export function validPassport(code) {
+  const reg = /^((1[45]\d{7})|(G\d{8})|(P\d{7})|(S\d{7,8}))?$/
+  return reg.test(code)
 }
 
 /**
@@ -75,6 +86,24 @@ export function validIdCard(idNumber) {
       return true
     }
   }
+}
+
+/**
+ * @param {string} path
+ * @returns {Boolean}
+ */
+export function isExternal(path) {
+  return /^(https?:|mailto:|tel:)/.test(path)
+}
+
+/**
+ * 验证url
+ * @param {string} url
+ * @returns {Boolean}
+ */
+export function validURL(url) {
+  const reg = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/
+  return reg.test(url)
 }
 
 /**
@@ -135,4 +164,32 @@ export function validAlphabets(str) {
 export function validChinese(str) {
   const reg = new RegExp('[\\u4E00-\\u9FFF]+', 'g')
   return reg.test(str)
+}
+
+/**
+ * 图片上传
+ * @param {file} file el-upload文件对象
+ * @param {number} size 限制的文件大小(kb) 默认10M
+ */
+export const validImgUpload = (file, size) => {
+  size = +size || 10240
+  const isSizeOut = file.size / 1024 > size
+  if (isSizeOut) {
+    Toast('上传图片大小不能超过' + tools.toStorage(size * 1024))
+  }
+  return !isSizeOut
+}
+
+/**
+ * 视频上传
+ * @param {file} file el-upload文件对象
+ * @param {number} size 限制的文件大小(kb) 默认200M
+ */
+export const validVideoUpload = (file, size) => {
+  size = +size || 204800
+  const isSizeOut = file.size / 1024 > size
+  if (isSizeOut) {
+    Toast('上传视频大小不能超过' + tools.toStorage(size * 1024))
+  }
+  return !isSizeOut
 }

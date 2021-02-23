@@ -83,6 +83,29 @@ function txtFormatTime(time, format) {
 }
 
 /**
+ * 日期格式转换成和当前时间相比剩余天数
+ * @param {date} startDate 开始时间点 startDate类型 2020-08-26 10:48:36，该参数不存在时，开始时间点为当前时间
+ * @param {date} endDate 结束时间点 endDate类型 2020-08-26 10:57:36
+ * @return {string} number 数字n
+ */
+function getRemainDay(endDate, startDate) {
+  if (typeof endDate === 'string') {
+    // "-" 移动端ios部分机型不识别，需要转化
+    endDate = endDate.replace(/-/g, '/')
+  }
+  if (startDate && typeof startDate === 'string') {
+    // "-" 移动端ios部分机型不识别，需要转化
+    startDate = startDate.replace(/-/g, '/')
+  }
+  let curr = startDate ? new Date(startDate).getTime() : new Date().getTime()
+  // console.log(endDate)
+  let end = new Date(endDate).getTime()
+  // console.log('-end-', end, '-curr-', curr)
+  let cha = Math.ceil((end - curr) / 1000 / 3600 / 24)
+  return cha
+}
+
+/**
  * 对象参数序列化(并转码)
  * @param {object} obj 对象参数
  * @return {string} a=1&b=2&c=3
@@ -197,9 +220,11 @@ function toThousands(num) {
  * @return {string} 2MB
  */
 function toStorage(num, digits) {
+  digits = digits || 2
   if (num < 1024) {
     return num + 'B'
   }
+  console.log('num', num)
   num = (num * 1000) / 1024
   const si = [
     { value: 1e18, symbol: 'E' },
@@ -211,7 +236,10 @@ function toStorage(num, digits) {
   ]
   for (let i = 0; i < si.length; i++) {
     if (num >= si[i].value) {
-      return (num / si[i].value).toFixed(digits).replace(/\.0+$|(\.[0-9]*[1-9])0+$/, '$1') + si[i].symbol + 'B'
+      // console.log(num / si[i].value / 1.024)
+      return (
+        (num / (si[i].value * 1.024)).toFixed(digits).replace(/\.0+$|(\.[0-9]*[1-9])0+$/, '$1') + si[i].symbol + 'B'
+      )
     }
   }
 }
@@ -395,6 +423,8 @@ export default {
   getTimestamp,
   // 日期时间文字化
   txtFormatTime,
+  // 日期格式转化成剩余时间n天,
+  getRemainDay,
   // 对象参数序列化
   objToUrlParams,
   // 获取地址参数

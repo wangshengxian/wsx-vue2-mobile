@@ -16,21 +16,13 @@ import '@/static/flexible.js'
 // vant按需引入
 import '@/static/importVant.js'
 
+// 面向对象相关
 import '@/utils/oop/srp.js'
 import '@/utils/oop/stateModel.js'
 
 Vue.use(Loading)
 
 Vue.config.productionTip = false
-
-window.addEventListener(
-  'popstate',
-  function(e) {
-    // console.log('-main-')
-    router.isBack = true
-  },
-  false
-)
 
 new Vue({
   router,
