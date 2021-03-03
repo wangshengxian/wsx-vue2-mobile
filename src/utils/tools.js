@@ -1,7 +1,8 @@
 import { Toast } from 'vant'
 /**
- * 公共工具函数
+ * 工具函数
  */
+
 /**
  * import { Toast } from 'vant'
  * 日期时间格式化
@@ -288,7 +289,7 @@ function throttle(fn, t) {
 
 /**
  * 深克隆(深拷贝) ==》ES6扩展运算符    {...source} 或者 [...source]
- * @param {object|array} 源数据
+ * @param {object|array} source 源数据
  * @return {object|array}
  */
 function deepClone(source) {
@@ -309,8 +310,8 @@ function getDataType(data) {
 
 /**
  * 一维数组转化二维数组
- * @param {array} list
- * @param {number} childLen 子数组的长度
+ * @param {array} list 数据源
+ * @param {number} childLen 子数组的长度，默认为 2
  * @return {array}
  */
 function arrTrans(list, childLen = 2) {
@@ -334,8 +335,8 @@ function arrTrans(list, childLen = 2) {
 
 /**
  * 判断数组中是否包含对象类型的元素
- * @param {Array} list 数据源
- * @return {Boolean}
+ * @param {array} list 数据源
+ * @return {boolean}
  */
 function isExistObject(list) {
   for (let i = 0; i < list.length; i++) {
@@ -362,7 +363,7 @@ function isArrayObject(source) {
 /**
  * 两个数组对象合并(注意：当两个对象中都有相同属性的话，后者会覆盖前者对应属性的值, )
  * @param {Array} source 源数组
- * @param {Array} arr 合并数组
+ * @param {Array} arr 目标数组
  * @return {Array} [{obj1:1},{obj2:2}]
  */
 function arrayObjectMerge(source, arr) {
@@ -416,6 +417,30 @@ export function removeArrEl(source, arr) {
   return source
 }
 
+/**
+ * 排序函数封装
+ * @param {array} list 数据源
+ * @param {string} type 排序状态(升序 = 'asc',降序 = 'desc')
+ * @param {boolean} isObj 是否是对象数组，默认为false,
+ * @param {string} attr 对象数组指定排序的属性，isObj为true时，才传递该参数
+ */
+function sortFunc(list, type, isObj = false, attr = '') {
+  // console.log('-attr-', attr, '-attr-bool-', !attr)
+  if (isObj && !attr) {
+    console.log('缺少参数--需要进行排序的属性名')
+    return
+  }
+  let func = function(attr, type) {
+    return function(m, n) {
+      let a = isObj ? m[attr] : m
+      let b = isObj ? n[attr] : n
+      return type === 'asc' ? a - b : b - a
+    }
+  }
+  // sort函数在比较字符串的时候，是比较字符串的Unicode进行排序的。
+  list.sort(func(attr, type))
+}
+
 export default {
   // 日期时间格式化
   formatDate,
@@ -458,8 +483,10 @@ export default {
   multipleObjectMerge,
   // 判断数组中是否包含对象
   isArrayObject,
-  //
+  // 处理图片
   handleImg,
   // 删除数组中指定的元素
-  removeArrEl
+  removeArrEl,
+  // 排序(升降序)
+  sortFunc
 }

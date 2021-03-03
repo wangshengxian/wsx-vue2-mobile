@@ -115,7 +115,7 @@ import headerBar from '@/components/headerBar'
 import store from '@/store'
 import openNative from '@/native/openNative'
 import { Dialog } from 'vant'
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import api from '@/api'
 export default {
   name: 'Index',
@@ -130,7 +130,7 @@ export default {
     isProdEnv() {
       return process.env.VUE_APP_SERVER_ENV == 'prod'
     },
-    ...mapGetters('globalStatus', ['loadErrorCount'])
+    ...mapState('global', ['loadErrorCount'])
   },
   created() {
     // console.log(this.$route.query)
@@ -156,10 +156,6 @@ export default {
     },
     toTopup() {
       this.$router.push({ name: 'TopupAddress' })
-      // console.log('充值')
-      // openNative.recharge()
-      // this.$toast('暂未开放！')
-      // this.$toast('即将唤醒另一个app')
     },
     toLogin() {
       this.$router.push({ name: 'Login' })
@@ -200,7 +196,7 @@ export default {
       })
         .then(() => {
           console.log('-confirm-')
-          this.$store.commit('globalStatus/setLoadErrorCount')
+          this.$store.commit('global/setLoadErrorCount')
           console.log('-load-count-', this.loadErrorCount)
           if (this.loadErrorCount > 3) {
             this.$toast({

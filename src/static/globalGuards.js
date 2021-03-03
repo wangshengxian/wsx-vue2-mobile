@@ -9,7 +9,7 @@ import { Toast } from 'vant'
 function setStatusBarHeight(to, from) {
   // console.log('-to-', to.query)
   const { statusBarHeight } = to.query
-  statusBarHeight && store.commit('globalStatus/setStatusBarHeight', statusBarHeight)
+  statusBarHeight && store.commit('global/setStatusBarHeight', statusBarHeight)
 }
 
 /**
@@ -59,7 +59,7 @@ function jumpNeedLogin(to, from, next) {
 function setRouteNames(to, from) {
   let names = [to.name, from.name]
   console.log(names)
-  store.commit('globalStatus/setToFromRouteNames', names)
+  store.commit('global/setToFromRouteNames', names)
   storage.setItem('routeNames', names)
   return
 }

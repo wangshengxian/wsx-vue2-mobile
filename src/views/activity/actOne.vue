@@ -1,40 +1,65 @@
 <!--
-   活动一
+   活动页
 -->
 <template>
-  <div class="actOne">
-    <activityMain type="liveFeature" :prevPageEnv="prevPageEnv"></activityMain>
+  <div class="activity">
+    <headerBar
+      :background="headConfig.bgColor"
+      :arrowsType="headConfig.arrowsType"
+      :titleOpacity="headConfig.titleOpacity"
+      isMainFullScreen
+      :isHighColor="false"
+      :onBack="onBack"
+    ></headerBar>
+    <div class="main">
+      <!-- 主要内容区 -->
+      <div class="imgBg">
+        <img :src="bgImgUrl" alt="" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import activityMain from './components/activityMain'
+import headerBar from '@/components/headerBar'
+import headConfigMixins from '@/mixins/headConfig'
+import openNative from '@/native/openNative'
 export default {
   name: '',
+  mixins: [headConfigMixins],
   data() {
     return {
-      // 前一页环境
-      prevPageEnv: 'native'
+      bgImgUrl: require('@/assets/images/activity/liveFeatureBg.png')
     }
   },
   computed: {},
-  beforeRouteEnter(to, from, next) {
-    // console.log(to, from, from.name)
-    next(vm => {
-      if (from.name !== null) {
-        // console.log(vm.prevPageEnv)
-        vm.prevPageEnv = 'h5'
-      }
-    })
-  },
+  components: { headerBar },
   created() {
-    console.log('actOne')
+    this.$loading.show()
+    setTimeout(() => {
+      this.$loading.hide()
+    }, 300)
   },
   mounted() {},
-  methods: {},
-  components: { activityMain }
+  methods: {
+    onBack() {
+      const { key } = this.$route.query
+      console.log('-query-key-', key)
+      if (key) {
+        openNative.closeWebview()
+        return
+      }
+      this.$router.go(-1)
+    }
+  }
 }
 </script>
 <style lang="less" scoped>
 //@import url(); 引入公共css类
+.activity {
+  img {
+    display: block;
+    width: 100%;
+  }
+}
 </style>

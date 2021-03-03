@@ -9,3 +9,10 @@ window.addEventListener(
   },
   false
 )
+
+window.addEventListener('pageshow', function() {
+  console.log('show')
+})
+window.addEventListener('pagehide', function() {
+  console.log('hide')
+})

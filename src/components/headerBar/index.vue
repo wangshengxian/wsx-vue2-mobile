@@ -24,8 +24,7 @@
 </template>
 
 <script>
-import platform from '@/native/platform'
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import openNative from '@/native/openNative'
 export default {
   name: '',
@@ -97,7 +96,7 @@ export default {
     this.setHighColor()
   },
   computed: {
-    ...mapGetters('globalStatus', ['statusBarHeight']),
+    ...mapState('global', ['statusBarHeight']),
     // 状态栏基础rem数值
     baseRemVal() {
       const baseVal = this.isNeedStatusBar ? this.statusBarHeight : 0

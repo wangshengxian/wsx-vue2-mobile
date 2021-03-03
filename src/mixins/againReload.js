@@ -1,15 +1,11 @@
-/*
- * @Author: wangshengxian
- * @Date: 2021-01-28 18:41:23
- * @LastEditors: wangshengxian
- * @LastEditTime: 2021-01-28 19:05:03
- * @Desc: 刷新当前界面
+/**
+ * 刷新当前界面
  */
 import openNative from '@/utils/openNative'
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   computed: {
-    ...mapGetters('globalStatus', ['loadErrorCount'])
+    ...mapState('global', ['loadErrorCount'])
   },
   methods: {
     handleReload(msg, fn) {
@@ -21,7 +17,7 @@ export default {
           confirmButtonText: '重新加载'
         })
         .then(() => {
-          this.$store.commit('globalStatus/setLoadErrorCount')
+          this.$store.commit('global/setLoadErrorCount')
           console.log('-load-count-', this.loadErrorCount)
           if (this.loadErrorCount > 3) {
             this.$toast({
@@ -32,7 +28,6 @@ export default {
             })
             return
           }
-          console.log('刷新当前页', this)
           fn()
         })
         .catch(() => {

@@ -1,6 +1,6 @@
 /**
- * js与原生交互方法集合
- * */
+ * js调用原生方法
+ */
 import platform from './platform'
 import iosBridge from './bridge'
 

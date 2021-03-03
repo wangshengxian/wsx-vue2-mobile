@@ -22,7 +22,7 @@ export default {
       isRouterAlive: true,
       // 初始过度动画方向
       transitionName: 'slide-right',
-      cacheModules: this.$store.state.globalStatus.cacheModules
+      cacheModules: this.$store.state.global.cacheModules
     }
   },
   computed: {
@@ -58,7 +58,7 @@ export default {
     setCacheModule(to, from) {
       // console.log('-setCacheModule-', to, from)
       // console.log('-route-', this.$route)
-      this.cacheModules = this.$store.state.globalStatus.cacheModules
+      this.cacheModules = this.$store.state.global.cacheModules
       console.log('-cache-modules-', this.cacheModules)
     }
   }

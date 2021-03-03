@@ -1,9 +1,5 @@
-/*
- * @Author: wangshengxian
- * @Date: 2021-02-01 11:26:01
- * @LastEditors: wangshengxian
- * @LastEditTime: 2021-02-01 11:40:44
- * @Desc: 原生调用js -- 事件管理
+/**
+ * 原生调用js -- 事件管理
  */
 import platform from './platform'
 import iosBridge from './bridge'
