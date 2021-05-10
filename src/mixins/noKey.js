@@ -2,6 +2,7 @@
  * 点击按钮 --> 唤起app/去下载页
  */
 import platform from '@/utils/platform'
+import { downloadUrl } from '@/const/global'
 import { mapState } from 'vuex'
 export default {
   data() {
@@ -20,11 +21,7 @@ export default {
       return this.accessToken == 'undefined' || !this.accessToken
     },
     downloadUrl() {
-      let obj = {
-        test: 'http://twww.tangseng.io/download/index.html',
-        prod: 'http://down.tangseng.io/download/index.html'
-      }
-      return process.env.VUE_APP_SERVER_ENV === 'prod' ? obj.prod : obj.test
+      return process.env.VUE_APP_SERVER_ENV === 'prod' ? downloadUrl['prod'] : downloadUrl['test']
     }
   },
   mounted() {

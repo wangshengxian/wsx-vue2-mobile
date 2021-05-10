@@ -1,7 +1,7 @@
 @import './reset.less';
 @import './variable.less';
 @import './flexbox.less';
-@import './common.less';
+@import './border.less';
 
 html,
 body {
@@ -48,6 +48,16 @@ html body {
   display: none;
 }
 
-.flex {
-  display: flex;
+// 设置 input 里面 placeholder 字体的颜色(并作兼容处理)
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  color: #c7c7c7;
+}
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+  color: #c7c7c7;
+}
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+  color: #c7c7c7;
 }

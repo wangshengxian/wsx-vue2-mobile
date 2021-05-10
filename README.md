@@ -157,7 +157,7 @@ vue2.x + vant
 - setting.json 部分配置
 
 ```bash
-"editor.formatOnSave": true, //每次保存自动格式化
+"editor.formatOnSave": true, // 每次保存自动格式化
 
 ```
 

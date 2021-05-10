@@ -1,5 +1,5 @@
 /**
- * 检测设备横屏提示
+ * 设备横屏提示
  */
 ;(function rotate() {
   var orientation = window.orientation

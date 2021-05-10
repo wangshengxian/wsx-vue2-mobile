@@ -21,13 +21,10 @@ export const prefixOptions = [
 /**
  * 下载页地址
  */
-export const downloadUrl = (() => {
-  let obj = {
-    test: 'http://twww.tangseng.io/download/index.html',
-    prod: 'http://down.tangseng.io/download/index.html'
-  }
-  return process.env.VUE_APP_SERVER_ENV === 'prod' ? obj.prod : obj.test
-})()
+export const downloadUrl = {
+  test: 'http://twww.tangseng.io/download/index.html',
+  prod: 'http://down.tangseng.io/download/index.html'
+}
 
 /**
  * 提现身份认证 ==> 3010 3011 3012 3013
