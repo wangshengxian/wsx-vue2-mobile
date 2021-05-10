@@ -89,7 +89,7 @@ export default {
     }
   },
   created() {
-    console.log('-测试husky和lint-staged-')
+    console.log('-测试husky和lint-staged222-')
     this.getTitle()
   },
   mounted() {

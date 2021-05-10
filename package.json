@@ -9,15 +9,10 @@
     "build:prod": "vue-cli-service build --mode prod",
     "lint": "vue-cli-service lint"
   },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
-  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -e $GET_PARAMS"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
 
     }
   },
