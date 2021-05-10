@@ -89,6 +89,7 @@ export default {
     }
   },
   created() {
+    console.log('-测试husky和lint-staged-')
     this.getTitle()
   },
   mounted() {
