@@ -3,11 +3,8 @@ const Path = require('path')
 const TerserPlugin = require('terser-webpack-plugin')
 
 console.log('-----proxyCode:', process.env.VUE_APP_PROXY_CODE)
-
 console.log('-----nodeEnv:', process.env.NODE_ENV)
-
 console.log('-----serverENV:', process.env.VUE_APP_SERVER_ENV)
-
 console.log('-----serverURL:', process.env.VUE_APP_SERVER_URL)
 
 const projectName = 'livemember'

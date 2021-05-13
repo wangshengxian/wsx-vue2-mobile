@@ -2,16 +2,12 @@
  * 点击按钮 --> 唤起app/去下载页
  */
 import platform from '@/utils/platform'
-import { downloadUrl } from '@/const/global'
 import { mapState } from 'vuex'
+import { appDownloadUrl, protocolHead } from '@/const/global'
 export default {
   data() {
     return {
-      timerObj: null,
-      nativeUrlObj: {
-        android: 'app://com.xinxin.tangseng',
-        ios: 'tangsengLive://'
-      }
+      timerObj: null
     }
   },
   computed: {
@@ -19,9 +15,6 @@ export default {
     isNoKey() {
       console.log('-key-mixin-复用-', !this.accessToken)
       return this.accessToken == 'undefined' || !this.accessToken
-    },
-    downloadUrl() {
-      return process.env.VUE_APP_SERVER_ENV === 'prod' ? downloadUrl['prod'] : downloadUrl['test']
     }
   },
   mounted() {
@@ -47,18 +40,22 @@ export default {
         clearTimeout(this.timerObj)
       }
     },
-    // 点击事件(TODO: 页面组件调用)
-    clickEventFunc() {
+    /**
+     * 点击事件 -- 页面调用
+     * @param {string} androidData 唤起 android 客户端地址(仅作参考): ?anchorId=2008200?h5_url=网页链接 (可不传)
+     * @param {string} iosData 唤起 ios 客户端地址(仅作参考): 2008200?h5_url=网页链接 (可不传)
+     */
+    clickEventFunc(androidData, iosData) {
       console.log('-click-mixin-复用-')
+      console.log('-params-data-', androidData, iosData)
       if (platform.isAndroid) {
-        window.location.href = this.nativeUrlObj.android
+        window.location.href = androidData ? `${protocolHead.android}${androidData}` : protocolHead.android
       }
       if (platform.isIos) {
-        window.location.href = this.nativeUrlObj.ios
+        window.location.href = iosData ? `${protocolHead.ios}${iosData}` : protocolHead.ios
       }
       this.timerObj = setTimeout(() => {
-        console.log('去下载', this.downloadUrl)
-        window.location.href = this.downloadUrl
+        window.location.href = appDownloadUrl
       }, 3000)
     }
   }

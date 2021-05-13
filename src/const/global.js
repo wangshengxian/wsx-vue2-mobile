@@ -1,4 +1,24 @@
 // 全局常量
+
+/**
+ * app下载页地址
+ */
+export const appDownloadUrl = (() => {
+  let urls = {
+    test: 'http://twww.tangseng.io/download/index.html',
+    prod: 'http://down.tangseng.io/download/index.html'
+  }
+  return process.env.VUE_APP_SERVER_ENV === 'prod' ? urls.prod : urls.test
+})()
+
+/**
+ * 唤起客户端app协议url
+ */
+export const protocolHead = {
+  android: 'app://com.xinxin.tangseng',
+  ios: 'tangsengLive://'
+}
+
 /**
  * 手机号前缀
  */
@@ -17,14 +37,6 @@ export const prefixOptions = [
   { value: '+65', text: '+65' }, // 新加坡
   { value: '+61', text: '+61' } // 澳大利亚
 ]
-
-/**
- * 下载页地址
- */
-export const downloadUrl = {
-  test: 'http://twww.tangseng.io/download/index.html',
-  prod: 'http://down.tangseng.io/download/index.html'
-}
 
 /**
  * 提现身份认证 ==> 3010 3011 3012 3013
